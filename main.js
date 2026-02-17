@@ -25,6 +25,41 @@ const removeFromCart = (id) => {
 }
 
 
+const showmodal = (id) => {
+    const url = `https://fakestoreapi.com/products/${id}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(items => modalData(items));
+}
+
+
+const modalData = (id) => {
+    const modalss = document.getElementById('modal_content');
+    modalss.innerHTML = "";
+    const content = document.createElement('div');
+
+    content.innerHTML = `
+                    <div class="md:w-1/2 flex items-center justify-center bg-white rounded-xl p-8">
+                        <img src="${id.image}" class="max-h-96 object-contain" />
+                    </div>
+                    <div class="md:w-1/2 flex flex-col">
+                        <div class="badge badge-primary mb-4 capitalize">${id.category}</div>
+                        <h2 class="text-3xl font-bold mb-4">${id.title}</h2>
+                        <p class="text-base-content/70 leading-relaxed mb-8">${id.description}</p>
+                        <div class="mt-auto">
+                            <div class="text-4xl font-extrabold mb-6 text-primary">$${id.price}</div>
+                            <button onclick="addToCart(${id.id})" class="btn btn-primary btn-lg w-full">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
+                `;
+
+    content.className = 'flex';
+    modalss.appendChild(content);
+}
+
 const addToCartItem = (item) => {
     console.log(item.id);
 
@@ -77,7 +112,7 @@ const displayTrandingProduct = (data) => {
                     <h3 class="card-title text-sm line-clamp-1">${datas.title}</h3>
                     <p class="text-xl font-bold mt-1 text-primary">$${datas.price}</p>
                     <div class="card-actions grid grid-cols-2 gap-2 mt-4">
-                        <button class="btn btn-outline btn-sm font-semibold capitalize">Details</button>
+                        <button onclick="showmodal(${datas.id}); product_modal.showModal()" class="btn btn-outline btn-sm font-semibold capitalize">Details</button>
                         <button onClick="addToCart(${datas.id})" class="btn btn-primary btn-sm font-semibold capitalize">Add</button>
                     </div>
                 </div>
