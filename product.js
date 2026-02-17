@@ -88,7 +88,6 @@ const removeFromCart = (id) => {
 
 
 const addToCartItem = (item) => {
-    console.log(item.id);
 
     const cardItem = document.getElementById('cardItem');
     const cardItemList = document.createElement('div');
@@ -116,13 +115,15 @@ const showmodal = (id) => {
     const url = `https://fakestoreapi.com/products/${id}`;
     fetch(url)
         .then(res => res.json())
-        .then(item => modalData(item));
+        .then(items => modalData(items));
 }
 
 
 const modalData = (id) => {
-    const modal = document.getElementById('modal-content');
+    const modalss = document.getElementById('modal_content');
+    modalss.innerHTML = "";
     const content = document.createElement('div');
+
     content.innerHTML = `
                     <div class="md:w-1/2 flex items-center justify-center bg-white rounded-xl p-8">
                         <img src="${id.image}" class="max-h-96 object-contain" />
@@ -136,9 +137,13 @@ const modalData = (id) => {
                             <button onclick="addToCart(${id.id})" class="btn btn-primary btn-lg w-full">Add to Cart</button>
                         </div>
                     </div>
+                    <div class="modal-action">
+                <form method="dialog"><button class="btn">Close</button></form>
+            </div>
                 `;
-    modal.appendChild(content);
-    console.log(id);
+
+    content.className = 'flex';
+    modalss.appendChild(content);
 }
 
 
